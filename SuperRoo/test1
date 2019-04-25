@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="superroo">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="testcontroller.js"></script>
+
+</head>
+<body ng-controller="superrooController">
+<!--<button class="btn btn-info" ng-click="hi()">Hello</button>
+<ul>
+    <li ng-repeat="d in dd">{{d.id}}:{{d.name}}</li>
+</ul>-->
+<div class="panel panel-default">
+    <div class="panel-heading">Panel Header</div>
+    <div class="panel-body">
+        <form>
+            <div class="form-group">
+                <label>Doctor Name:</label>
+                <input type="text" class="form-control" id="doc_name" ng-model="appointmentData.doc_name">
+            </div>
+            <div class="form-group">
+                <label>Patient Name:</label>
+                <input type="text" class="form-control" id="patient_name" ng-model="appointmentData.patient_name">
+            </div>
+            <div class="form-group">
+                <label>Patient Phone Number:</label>
+                <input type="text" class="form-control" id="patient_phn_num" ng-model="appointmentData.patient_phn_num">
+            </div>
+            <div class="form-group">
+                <label>Start Time:</label>
+                <input type="datetime-local" class="form-control" id="start_time" ng-model="appointmentData.start_time">
+            </div>
+            <div class="form-group">
+                <label>End Time:</label>
+                <input type="datetime-local" class="form-control" id="end_time" ng-model="appointmentData.end_time">
+            </div>
+            <div class="form-group">
+                <label>Relation:</label>
+                <input type="text" class="form-control" id="relation" ng-model="appointmentData.relation">
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="makeAppointment(appointmentData)">Submit</button>
+        </form>
+
+    </div>
+</div>
+</body>
+
+</html>

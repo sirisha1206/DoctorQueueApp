@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mymodal">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+</head>
+<body>
+<div ng-controller="MainCtrl" class="container">
+    <div class="well well-lg" ng-repeat="doctor in doctors">
+
+        <div class="row">
+            <div class="col-md-3" style="margin-top: 7%;">
+                <img src="stethoscope3.png">
+            </div>
+            <div class="col-md-9" style="padding-left: 25%">
+                <h3>{{doctor.doc_name}}</h3>
+                <p>{{doctor.specialization}}</p>
+                <!--<p><span class="fa fa-star checked" ng-repeat="n in [] | range:doctor.rating"></span>
+                    <span class="fa fa-star" ng-repeat="n in [] | range:5 - doctor.rating"></span></p>-->
+                <p>Wait time:{{doctor.wait_time_in_min}}</p>
+                <p>{{doctor.doc_email}}</p>
+                <button class="btn btn-primary" ng-click="toggleModal(doctor)"><img src="line2.png">Join Queue</button>
+            </div>
+        </div>
+    </div>
+    <modal visible="showModal">
+        Any additional data / buttons
+    </modal>
+    <!--<button ng-click="toggleModal('Success')" class="btn btn-default">Success</button>
+    <button ng-click="toggleModal('Remove')" class="btn btn-default">Remove</button>
+    <button ng-click="toggleModal('Deny')" class="btn btn-default">Deny</button>
+    <button ng-click="toggleModal('Cancel')" class="btn btn-default">Cancel</button>
+    <modal visible="showModal">
+        Any additional data / buttons
+    </modal>-->
+</div>
+</body>
+<script>
+    var mymodal = angular.module('mymodal', []);
+
+    mymodal.controller('MainCtrl', function ($scope) {
+        $scope.showModal = false;
+
+        $scope.doctors = [ {
+            doc_name: 'John',
+            rating: 4,
+            specialization: 'general physician',
+            doc_email: 'john@gmail.com',
+            wait_time_in_min: 0 },
+            {
+                doc_name: 'Tim',
+                rating: 5,
+                specialization: 'Dentist',
+                doc_email: 'tim@gmail.com',
+                wait_time_in_min: 0 },
+            {
+                doc_name: 'Mary',
+                rating: 4,
+                specialization: 'ENT',
+                doc_email: 'mary@gmail.com',
+                wait_time_in_min: 0 } ]
+
+
+        $scope.doctor = "";
+        $scope.toggleModal = function(doctor){
+            $scope.doctor = doctor;
+            $scope.showModal = !$scope.showModal;
+        };
+    });
+
+
+
+
+    mymodal.directive('modal', function () {
+        return {
+            template:'    <div id="myModal" class="modal fade" role="dialog">' +
+            '        <div class="modal-dialog">\n' +
+            '            <div class="modal-content">\n' +
+            '                <div class="modal-header">\n' +
+            '                    <button type="button" class="close" data-dismiss="modal">&times;</button>\n' +
+            '                    <h4 class="modal-title">Join Queue</h4>\n' +
+            '                </div>\n' +
+            '                <div class="modal-body">\n' +
+            '                    <form>\n' +
+            '                        <div class="form-group">\n' +
+            '                            <label>Patient Name:{{doctor.doc_name}}</label>\n' +
+            '                            <input type="text" class="form-control" id="patient_name" value="{{doctor.doc_name}}"  ng-model="appointmentData.patient_name">\n' +
+            '                        </div>\n' +
+            '                        <div class="form-group">\n' +
+            '                            <label>Relation:</label>\n' +
+            '                            <input type="text" class="form-control" id="relation" ng-model="appointmentData.relation">\n' +
+            '                        </div>\n' +
+            '                        <button type="button" class="btn btn-primary" ng-click="makeAppointment(appointmentData)">Submit</button>\n' +
+            '                    </form>\n' +
+            '\n' +
+            '                </div>\n' +
+            '\n' +
+            '            </div>\n' +
+            '\n' +
+            '        </div>\n' +
+            '    </div>\n',
+
+
+            /*template: '<div class="modal fade">' +
+            '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header">' +
+            '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+            '<h4 class="modal-title">{{ buttonClicked }} clicked!!</h4>' +
+            '</div>' +
+            '<div class="modal-body" ng-transclude></div>' +
+            '</div>' +
+            '</div>' +
+            '</div>',*/
+            restrict: 'E',
+            transclude: true,
+            replace:true,
+            scope:true,
+            link: function postLink(scope, element, attrs) {
+                scope.$watch(attrs.visible, function(value){
+                    if(value == true)
+                        $(element).modal('show');
+                    else
+                        $(element).modal('hide');
+                });
+
+                $(element).on('shown.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = true;
+                    });
+                });
+
+                $(element).on('hidden.bs.modal', function(){
+                    scope.$apply(function(){
+                        scope.$parent[attrs.visible] = false;
+                    });
+                });
+            }
+        };
+    });
+</script>
+</html>
